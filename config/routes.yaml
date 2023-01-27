@@ -1,5 +1,6 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
+homepage:
+    path: /
+    controller: App\CenaConDelitto\UserArea\Controller\HomeController::homepage
+test:
+    path: test/
+    controller: App\CenaConDelitto\UserArea\Controller\HomeController::test
