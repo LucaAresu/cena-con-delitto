@@ -1,6 +1,3 @@
-homepage:
-    path: /
-    controller: App\CenaConDelitto\UserArea\Controller\HomeController::homepage
-test:
-    path: test/
-    controller: App\CenaConDelitto\UserArea\Controller\HomeController::test
+user_controllers:
+  resource: '../src/CenaConDelitto/UserArea/Controller'
+  type: attribute
