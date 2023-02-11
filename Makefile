@@ -16,6 +16,7 @@ test:
 
 testmethod:
 	symfony php ./vendor/bin/phpunit --filter=$(call args)
+
 coverage:
 	symfony php vendor/bin/phpunit --coverage-html public/coverage
 
@@ -24,5 +25,8 @@ phpstan:
 
 insights:
 	symfony php vendor/bin/phpinsights $(call args)
+
+fix:
+	PHP_CS_FIXER_IGNORE_ENV=1 php ./vendor/bin/php-cs-fixer fix src/CenaConDelitto
 
 .PHONY: start

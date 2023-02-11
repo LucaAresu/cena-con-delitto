@@ -1,3 +1,7 @@
 user_controllers:
   resource: '../src/CenaConDelitto/UserArea/Controller'
   type: attribute
+
+login_controllers:
+  resource: '../src/CenaConDelitto/Login/Controller'
+  type: attribute

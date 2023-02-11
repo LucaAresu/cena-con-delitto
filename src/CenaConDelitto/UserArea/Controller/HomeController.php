@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CenaConDelitto\UserArea\Controller;
 
-use CenaConDelitto\Shared\Controller\ControllerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\HubInterface;
@@ -13,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-
     #[Route('/', name: 'home')]
     public function homepage(): Response
     {
@@ -21,12 +19,11 @@ class HomeController extends AbstractController
     }
 
     #[Route('/test', name: 'test')]
-
     public function test(HubInterface $hub): Response
     {
         $update = new Update(
             'https://example.com/books/1',
-            json_encode(['status' => 'OutOfStock'])
+            json_encode(['status' => 'OutOfStock'], JSON_THROW_ON_ERROR)
         );
 
         $hub->publish($update);
