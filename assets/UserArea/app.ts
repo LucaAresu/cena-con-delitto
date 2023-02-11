@@ -6,13 +6,14 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import 'App/styles/app.css';
 
 // start the Stimulus application
 
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "UserArea/App.vue";
 import { createPinia } from "pinia";
+
 // import routes from "./router/routes";
 
 //
