@@ -14,7 +14,7 @@ doctrine:
             App:
                 is_bundle: false
                 dir: '%kernel.project_dir%/src/CenaConDelitto/Shared/Entity'
-                prefix: 'App\Entity'
+                prefix: 'CenaConDelitto\Shared\Entity'
                 alias: App
 
 when@test:

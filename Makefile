@@ -24,7 +24,7 @@ phpstan:
 	symfony php vendor/bin/phpstan analyse src --level=$(call args)
 
 insights:
-	symfony php vendor/bin/phpinsights $(call args)
+	symfony php vendor/bin/phpinsights analyse src/CenaConDelitto -v
 
 fix:
 	PHP_CS_FIXER_IGNORE_ENV=1 php ./vendor/bin/php-cs-fixer fix src/CenaConDelitto
