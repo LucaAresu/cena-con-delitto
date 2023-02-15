@@ -4,7 +4,7 @@ args = $(filter-out $@,$(MAKECMDGOALS))
 
 start:
 	symfony serve -d
-	docker-compose start
+	docker-compose up -d
 	yarn encore dev-server
 
 stop:
