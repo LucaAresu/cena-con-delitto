@@ -1,0 +1,375 @@
+Escaped mutants:
+================
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
+
+1) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Login/Controller/LoginController.php:13    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+ use Symfony\Component\Routing\Annotation\Route;
+ class LoginController extends AbstractController
+ {
+-    #[Route('/login', name: 'login_page', methods: 'GET')]
+-    public function login() : Response
++    protected function login() : Response
+     {
+         return $this->render('login.html.twig');
+     }
+ }
+
+
+2) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Entity/User.php:36    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     #[ORM\Column(length: 255)]
+     private ?string $username = null;
+     private ?string $plainPassword = null;
+-    public function getId() : ?int
++    protected function getId() : ?int
+     {
+         return $this->id;
+     }
+
+
+3) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Entity/User.php:41    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->id;
+     }
+-    public function getUuid() : ?string
++    protected function getUuid() : ?string
+     {
+         return $this->uuid;
+     }
+
+
+4) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Entity/User.php:60    [M] CastString
+
+--- Original
++++ New
+@@ @@
+      */
+     public function getUserIdentifier() : string
+     {
+-        return (string) $this->uuid;
++        return $this->uuid;
+     }
+     /**
+      * @see UserInterface
+
+
+5) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Entity/User.php:72    [M] UnwrapArrayUnique
+
+--- Original
++++ New
+@@ @@
+         $roles = $this->roles;
+         // guarantee every user at least has ROLE_USER
+         $roles[] = 'ROLE_USER';
+-        return array_unique($roles);
++        return $roles;
+     }
+     /** @param array<string> $roles */
+     public function setRoles(array $roles) : self
+
+
+6) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Entity/User.php:76    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         return array_unique($roles);
+     }
+     /** @param array<string> $roles */
+-    public function setRoles(array $roles) : self
++    protected function setRoles(array $roles) : self
+     {
+         $this->roles = $roles;
+         return $this;
+
+
+7) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Entity/User.php:107    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+         // If you store any temporary, sensitive data on the user, clear it here
+         $this->plainPassword = null;
+     }
+-    public function getUsername() : ?string
++    protected function getUsername() : ?string
+     {
+         return $this->username;
+     }
+
+
+8) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Event/Doctrine/User.php:20    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         $this->updatePassword($user);
+     }
+-    public function preUpdate(\CenaConDelitto\Shared\Entity\User $user) : void
++    protected function preUpdate(\CenaConDelitto\Shared\Entity\User $user) : void
+     {
+         $this->updatePassword($user);
+     }
+
+
+9) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Event/Doctrine/User.php:22    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     public function preUpdate(\CenaConDelitto\Shared\Entity\User $user) : void
+     {
+-        $this->updatePassword($user);
++        
+     }
+     private function updatePassword(\CenaConDelitto\Shared\Entity\User $user) : void
+     {
+
+
+10) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:36    [M] FalseValue
+
+--- Original
++++ New
+@@ @@
+             $this->getEntityManager()->flush();
+         }
+     }
+-    public function remove(User $entity, bool $flush = false) : void
++    public function remove(User $entity, bool $flush = true) : void
+     {
+         $this->getEntityManager()->remove($entity);
+         if ($flush) {
+
+
+11) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:36    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+             $this->getEntityManager()->flush();
+         }
+     }
+-    public function remove(User $entity, bool $flush = false) : void
++    protected function remove(User $entity, bool $flush = false) : void
+     {
+         $this->getEntityManager()->remove($entity);
+         if ($flush) {
+
+
+12) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:38    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     }
+     public function remove(User $entity, bool $flush = false) : void
+     {
+-        $this->getEntityManager()->remove($entity);
++        
+         if ($flush) {
+             $this->getEntityManager()->flush();
+         }
+
+
+13) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:41    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     {
+         $this->getEntityManager()->remove($entity);
+         if ($flush) {
+-            $this->getEntityManager()->flush();
++            
+         }
+     }
+     /**
+
+
+14) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:50    [M] InstanceOf_
+
+--- Original
++++ New
+@@ @@
+      */
+     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword) : void
+     {
+-        if (!$user instanceof User) {
++        if (!true) {
+             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+         $user->setPassword($newHashedPassword);
+
+
+15) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:50    [M] InstanceOf_
+
+--- Original
++++ New
+@@ @@
+      */
+     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword) : void
+     {
+-        if (!$user instanceof User) {
++        if (!false) {
+             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+         $user->setPassword($newHashedPassword);
+
+
+16) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:50    [M] LogicalNot
+
+--- Original
++++ New
+@@ @@
+      */
+     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword) : void
+     {
+-        if (!$user instanceof User) {
++        if ($user instanceof User) {
+             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+         $user->setPassword($newHashedPassword);
+
+
+17) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:51    [M] Throw_
+
+--- Original
++++ New
+@@ @@
+     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword) : void
+     {
+         if (!$user instanceof User) {
+-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
++            new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+         $user->setPassword($newHashedPassword);
+         $this->save($user, true);
+
+
+18) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:54    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+         if (!$user instanceof User) {
+             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+-        $user->setPassword($newHashedPassword);
++        
+         $this->save($user, true);
+     }
+     //    /**
+
+
+19) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:56    [M] TrueValue
+
+--- Original
++++ New
+@@ @@
+             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+         $user->setPassword($newHashedPassword);
+-        $this->save($user, true);
++        $this->save($user, false);
+     }
+     //    /**
+     //     * @return User[] Returns an array of User objects
+
+
+20) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/Shared/Repository/UserRepository.php:56    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+         }
+         $user->setPassword($newHashedPassword);
+-        $this->save($user, true);
++        
+     }
+     //    /**
+     //     * @return User[] Returns an array of User objects
+
+
+21) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/UserArea/Controller/HomeController.php:15    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+ use Symfony\Component\Routing\Annotation\Route;
+ class HomeController extends AbstractController
+ {
+-    #[Route('/', name: 'home')]
+-    public function homepage() : Response
++    protected function homepage() : Response
+     {
+         return $this->render('base.html.twig');
+     }
+
+
+22) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/UserArea/Controller/HomeController.php:21    [M] PublicVisibility
+
+--- Original
++++ New
+@@ @@
+     {
+         return $this->render('base.html.twig');
+     }
+-    #[Route('/test', name: 'test')]
+-    public function test(HubInterface $hub) : Response
++    protected function test(HubInterface $hub) : Response
+     {
+         $update = new Update('https://example.com/books/1', json_encode(['status' => 'OutOfStock'], JSON_THROW_ON_ERROR));
+         $hub->publish($update);
+
+
+23) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/UserArea/Controller/HomeController.php:26    [M] ArrayItemRemoval
+
+--- Original
++++ New
+@@ @@
+     #[Route('/test', name: 'test')]
+     public function test(HubInterface $hub) : Response
+     {
+-        $update = new Update('https://example.com/books/1', json_encode(['status' => 'OutOfStock'], JSON_THROW_ON_ERROR));
++        $update = new Update('https://example.com/books/1', json_encode([], JSON_THROW_ON_ERROR));
+         $hub->publish($update);
+         return new Response('published!');
+     }
+ }
+
+
+24) /Users/lucaaresu/progetti/Symfony/cena-con-delitto/src/CenaConDelitto/UserArea/Controller/HomeController.php:29    [M] MethodCallRemoval
+
+--- Original
++++ New
+@@ @@
+     public function test(HubInterface $hub) : Response
+     {
+         $update = new Update('https://example.com/books/1', json_encode(['status' => 'OutOfStock'], JSON_THROW_ON_ERROR));
+-        $hub->publish($update);
++        
+         return new Response('published!');
+     }
+ }
