@@ -1,0 +1,14 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.26.2/resources/schema.json",
+    "source": {
+        "directories": [
+            "src/CenaConDelitto"
+        ],
+        "excludes": [
+            "Shared/Factory"
+        ]
+    },
+    "mutators": {
+        "@default": true
+    }
+}

@@ -8,7 +8,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 readonly class User
 {
-
     public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
     }
@@ -22,6 +21,7 @@ readonly class User
     {
         $this->updatePassword($user);
     }
+
     private function updatePassword(\CenaConDelitto\Shared\Entity\User $user): void
     {
         if (!$user->getPlainPassword()) {
