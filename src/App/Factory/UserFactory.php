@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CenaConDelitto\Shared\Factory;
+namespace App\Factory;
 
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
@@ -39,7 +39,7 @@ final class UserFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'password' => self::faker()->text(),
+            'password' => self::faker()->password(),
             'roles' => [],
             'username' => self::faker()->userName(),
             'uuid' => self::faker()->uuid(),

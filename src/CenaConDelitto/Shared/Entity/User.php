@@ -4,6 +4,7 @@ namespace CenaConDelitto\Shared\Entity;
 
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,15 +18,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $uuid = null;
+    private string $uuid;
 
     /** @var array<string> */
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
+    /** The hashed password */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -38,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUuid(): ?string
+    public function getUuid(): string
     {
         return $this->uuid;
     }
@@ -57,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->uuid;
+        return $this->uuid;
     }
 
     /**
@@ -88,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -124,6 +123,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(string|null $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function updatePassword(string $password): self
+    {
+        $this->setPassword(null);
+        $this->setPlainPassword($password);
 
         return $this;
     }
