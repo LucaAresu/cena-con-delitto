@@ -2,3 +2,7 @@ parameters:
     level: 9
     paths:
         - src/CenaConDelitto
+    doctrine:
+        ormRepositoryClass: Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+        odmRepositoryClass: Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository
+        objectManagerLoader: tests/object-manager.php

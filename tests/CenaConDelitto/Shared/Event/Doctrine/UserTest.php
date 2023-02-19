@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\CenaConDelitto\Shared\Event\Doctrine;
 
-use App\Factory\UserFactory;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

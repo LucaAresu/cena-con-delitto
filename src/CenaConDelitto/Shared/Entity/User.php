@@ -26,11 +26,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /** The hashed password */
     #[ORM\Column]
-    private ?string $password = null;
+    private string $password = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
+    private string $username;
     private ?string $plainPassword = null;
+
+    #[ORM\Column]
+    private ?bool $is_guest = null;
 
     public function getId(): ?int
     {
@@ -79,15 +82,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): null|string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(?string $password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -103,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->plainPassword = null;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -129,8 +129,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function updatePassword(string $password): self
     {
-        $this->setPassword(null);
+        $this->setPassword('');
         $this->setPlainPassword($password);
+
+        return $this;
+    }
+
+    public function isIsGuest(): ?bool
+    {
+        return $this->is_guest;
+    }
+
+    public function setIsGuest(bool $is_guest): self
+    {
+        $this->is_guest = $is_guest;
 
         return $this;
     }

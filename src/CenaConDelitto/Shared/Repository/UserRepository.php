@@ -6,9 +6,6 @@ use CenaConDelitto\Shared\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Exception\RuntimeException;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -45,8 +42,12 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function get(string $uuid): User
     {
+        /** @var User|null $result */
         $result = $this->createQueryBuilder('u')
             ->andWhere('u.uuid = :uuid')
             ->setParameter('uuid', $uuid)
