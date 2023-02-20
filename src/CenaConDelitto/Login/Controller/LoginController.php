@@ -7,10 +7,10 @@ namespace CenaConDelitto\Login\Controller;
 use CenaConDelitto\Login\UseCase\GuestAccessUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class LoginController extends AbstractController
 {
@@ -23,6 +23,7 @@ class LoginController extends AbstractController
     #[Route('/guest-access', name: 'guest_access', methods: ['GET', 'POST'])]
     public function guestAccess(Request $request, GuestAccessUseCase $useCase, Security $security): Response
     {
+        // todo: errore se già loggato
         try {
             $user = $useCase->execute($request);
         } catch (AccessDeniedException $e) {

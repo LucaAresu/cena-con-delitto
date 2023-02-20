@@ -5,9 +5,7 @@ namespace CenaConDelitto\Shared\Repository;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Exception\EntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use http\Exception\RuntimeException;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -59,44 +57,18 @@ class UserRepository extends ServiceEntityRepository
         if (!$result) {
             throw EntityNotFoundException::crea(self::class, $uuid);
         }
+
         return $result;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function getByUsername(string $username): User|null
     {
-        /** @var User */
+        /* @var User */
         return $this->createQueryBuilder('u')
             ->andWhere('u.username = :username')
             ->setParameter('username', $username)
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

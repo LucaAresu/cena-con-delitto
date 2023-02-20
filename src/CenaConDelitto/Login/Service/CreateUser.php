@@ -7,12 +7,12 @@ namespace CenaConDelitto\Login\Service;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Symfony\Component\Uid\Factory\UuidFactory;
-use Symfony\Component\Uid\Uuid;
 
 readonly class CreateUser
 {
-
-    public function __construct(private UuidFactory $uuidFactory, private UserRepository $userRepository) {}
+    public function __construct(private UuidFactory $uuidFactory, private UserRepository $userRepository)
+    {
+    }
 
     public function createGuest(string $username): User
     {
@@ -42,5 +42,4 @@ readonly class CreateUser
 
         return $user;
     }
-
 }

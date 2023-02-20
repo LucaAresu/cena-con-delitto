@@ -13,10 +13,11 @@ use Webmozart\Assert\Assert;
 
 readonly class GuestAccessUseCase
 {
-
     private const USERNAME = 'username';
 
-    public function __construct(private CreateUser $createUser, private UserRepository $userRepository) {}
+    public function __construct(private CreateUser $createUser, private UserRepository $userRepository)
+    {
+    }
 
     public function execute(Request $request): User
     {
@@ -24,14 +25,13 @@ readonly class GuestAccessUseCase
 
         $user = $this->userRepository->getByUsername($username);
 
-        if ($user) {
-            if (true === $user->isGuest()) {
-                return $user;
-            }
-
-            throw new AccessDeniedException('Questo utente non è di tipo guest');
+        if (!$user) {
+            return $this->createUser->createGuest($username);
+        }
+        if (true === $user->isGuest()) {
+            return $user;
         }
 
-        return $this->createUser->createGuest($username);
+        throw new AccessDeniedException('Questo utente non è di tipo guest');
     }
 }
