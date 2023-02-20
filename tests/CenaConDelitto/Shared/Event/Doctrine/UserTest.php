@@ -8,6 +8,8 @@ use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Uid\UuidV6;
 
 class UserTest extends KernelTestCase
 {
@@ -37,14 +39,11 @@ class UserTest extends KernelTestCase
         $user = $this->createUser('changeMe');
 
         $password = 'test';
-        $p = [];
-        $p [] = $user->getPassword();
+
         $user->updatePassword($password);
         $this->userRepository->save($user);
-        $p [] = $user->getPassword();
 
-        $user = $this->userRepository->get($user->getUuid());
-        $p [] = $user->getPassword();
+        $user = $this->userRepository->get($user->getUuid()->toRfc4122());
 
         self::assertTrue($this->userPasswordHasher->isPasswordValid($user, $password));
     }
@@ -52,9 +51,10 @@ class UserTest extends KernelTestCase
     private function createUser(string $password): User
     {
         $user = new User();
-        $user->setUuid('59575c2c-ad4d-11ed-afa1-0242ac120002')
+        $user->setUuid(Uuid::v7())
             ->setUsername('fsafsa')
-            ->updatePassword($password);
+            ->updatePassword($password)
+            ->setIsGuest(true);
 
         $this->userRepository->save($user);
 

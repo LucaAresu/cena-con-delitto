@@ -6,6 +6,8 @@ namespace App\Factory;
 
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
+use Symfony\Component\Uid\Factory\UuidFactory;
+use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -36,13 +38,15 @@ final class UserFactory extends ModelFactory
      *
      * @todo add your default values here
      */
+
     protected function getDefaults(): array
     {
         return [
             'password' => self::faker()->password(),
             'roles' => [],
             'username' => self::faker()->userName(),
-            'uuid' => self::faker()->uuid(),
+            'uuid' => Uuid::v7(),
+            'is_guest' => false,
         ];
     }
 
@@ -52,12 +56,9 @@ final class UserFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this;
-        // ->afterInstantiate(function(User $user): void {
-            //     $user->setPassword(
-            //         $this->passwordHasher->H
-            //     )
-            //
-        // })
+        // return $this->afterInstantiate(function(User $user): void {
+        //     $user->setUuid($this->uuidFactory->create());
+        // });
     }
 
     protected static function getClass(): string

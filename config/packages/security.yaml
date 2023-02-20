@@ -8,15 +8,21 @@ security:
         app_user_provider:
             entity:
                 class: CenaConDelitto\Shared\Entity\User
-                property: uuid
+                property: username
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            lazy: true
-            provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+            entry_point: form_login
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

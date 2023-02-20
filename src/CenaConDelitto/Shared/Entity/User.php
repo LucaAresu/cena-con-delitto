@@ -4,9 +4,11 @@ namespace CenaConDelitto\Shared\Entity;
 
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -17,8 +19,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
-    private string $uuid;
+    #[ORM\Column(length: 180, unique: true, type: UuidType::NAME)]
+    private Uuid $uuid;
 
     /** @var array<string> */
     #[ORM\Column]
@@ -28,24 +30,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password = '';
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private string $username;
     private ?string $plainPassword = null;
 
     #[ORM\Column]
-    private ?bool $is_guest = null;
+    private bool $is_guest;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUuid(): string
+    public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): self
+    public function setUuid(Uuid $uuid): self
     {
         $this->uuid = $uuid;
 
@@ -135,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsGuest(): ?bool
+    public function isGuest(): bool
     {
         return $this->is_guest;
     }

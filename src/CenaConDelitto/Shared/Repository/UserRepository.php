@@ -3,7 +3,9 @@
 namespace CenaConDelitto\Shared\Repository;
 
 use CenaConDelitto\Shared\Entity\User;
+use CenaConDelitto\Shared\Exception\EntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use http\Exception\RuntimeException;
 
@@ -55,9 +57,22 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
         if (!$result) {
-            throw new RuntimeException('Nope'); // todo mettere vera eccezione
+            throw EntityNotFoundException::crea(self::class, $uuid);
         }
         return $result;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getByUsername(string $username): User|null
+    {
+        /** @var User */
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**
