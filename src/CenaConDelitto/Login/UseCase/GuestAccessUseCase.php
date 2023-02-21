@@ -4,29 +4,24 @@ declare(strict_types=1);
 
 namespace CenaConDelitto\Login\UseCase;
 
+use CenaConDelitto\Login\Dto\GuestAccessRequest;
 use CenaConDelitto\Login\Service\CreateUser;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Webmozart\Assert\Assert;
 
 readonly class GuestAccessUseCase
 {
-    private const USERNAME = 'username';
-
     public function __construct(private CreateUser $createUser, private UserRepository $userRepository)
     {
     }
 
-    public function execute(Request $request): User
+    public function execute(GuestAccessRequest $request): User
     {
-        Assert::string($username = $request->get(self::USERNAME), 'Non è stato inserito nessun username');
-
-        $user = $this->userRepository->getByUsername($username);
+        $user = $this->userRepository->getByUsername($request->username());
 
         if (!$user) {
-            return $this->createUser->createGuest($username);
+            return $this->createUser->createGuest($request->username());
         }
         if (true === $user->isGuest()) {
             return $user;

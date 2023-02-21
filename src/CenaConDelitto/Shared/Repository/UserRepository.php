@@ -33,15 +33,6 @@ class UserRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function remove(User $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -64,7 +55,7 @@ class UserRepository extends ServiceEntityRepository
     /** @noinspection PhpUnhandledExceptionInspection */
     public function getByUsername(string $username): User|null
     {
-        /* @var User */
+        /* @phpstan-ignore-next-line */
         return $this->createQueryBuilder('u')
             ->andWhere('u.username = :username')
             ->setParameter('username', $username)
