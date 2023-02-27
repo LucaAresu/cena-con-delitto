@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Factory\UuidFactory;
 use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\ModelFactory;
@@ -39,6 +40,11 @@ final class UserFactory extends ModelFactory
      * @todo add your default values here
      */
 
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
+    {
+        parent::__construct();
+    }
+
     protected function getDefaults(): array
     {
         return [
@@ -55,10 +61,9 @@ final class UserFactory extends ModelFactory
      */
     protected function initialize(): self
     {
-        return $this;
-        // return $this->afterInstantiate(function(User $user): void {
-        //     $user->setUuid($this->uuidFactory->create());
-        // });
+        return $this->afterInstantiate(function(User $user): void {
+            $user->setPassword($this->userPasswordHasher->hashPassword($user, $user->getPassword()));
+        });
     }
 
     protected static function getClass(): string

@@ -18,6 +18,11 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
+                enable_csrf: true
+                username_parameter: username
+                password_parameter: password
+                default_target_path: login_success
+                always_use_default_target_path: true
             entry_point: form_login
             logout:
                 path: app_logout
@@ -48,3 +53,7 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+        firewalls:
+            main:
+                form_login:
+                    enable_csrf: false
