@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CenaConDelitto\Login\EventListener\Kernel\Request;
 
-use CenaConDelitto\Login\Exception\EmptyUsernameException;
 use CenaConDelitto\Login\Service\CreateUser;
 use CenaConDelitto\Login\Service\IsRequestGoodForUser;
 use CenaConDelitto\Shared\Repository\UserRepository;
