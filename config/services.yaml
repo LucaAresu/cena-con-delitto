@@ -36,3 +36,11 @@ services:
     CenaConDelitto\Shared\Event\Kernel\Exception\RequestValidationExceptionListener:
         tags:
             - {name: kernel.event_listener, event: kernel.exception, method: handleException}
+
+    CenaConDelitto\Login\EventListener\Kernel\Request\CreateGuest:
+        tags:
+            - {name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 9}
+
+    CenaConDelitto\Login\EventListener\Security\Http\Event\CheckPassportEvent\AllowGuestToLogin:
+        tags:
+            - {name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\CheckPassportEvent, method: checkGuestUser, priority: 1}

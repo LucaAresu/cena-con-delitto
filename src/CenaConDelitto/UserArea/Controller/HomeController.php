@@ -18,16 +18,16 @@ class HomeController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-    #[Route('/test', name: 'test')]
-    public function test(HubInterface $hub): Response
-    {
-        $update = new Update(
-            'https://example.com/books/1',
-            json_encode(['status' => 'OutOfStock'], JSON_THROW_ON_ERROR)
-        );
-
-        $hub->publish($update);
-
-        return new Response('published!');
-    }
+    // #[Route('/test', name: 'test')]
+    // public function test(HubInterface $hub): Response
+    // {
+    //     $update = new Update(
+    //         'https://example.com/books/1',
+    //         json_encode(['status' => 'OutOfStock'], JSON_THROW_ON_ERROR)
+    //     );
+    //
+    //     $hub->publish($update);
+    //
+    //     return new Response('published!');
+    // }
 }

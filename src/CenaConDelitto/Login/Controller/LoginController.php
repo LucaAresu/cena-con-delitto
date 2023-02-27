@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace CenaConDelitto\Login\Controller;
 
-use CenaConDelitto\Login\Dto\GuestAccessRequest;
-use CenaConDelitto\Login\UseCase\GuestAccessUseCase;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Enum\UserRoles;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -43,28 +39,5 @@ class LoginController extends AbstractController
         }
 
         return $this->redirectToRoute($redirectRoute);
-    }
-
-    #[Route('/guest-access', name: 'guest_access', methods: ['POST'])]
-    public function guestAccess(GuestAccessRequest $guestAccessRequest, GuestAccessUseCase $useCase, Security $security): Response
-    {
-        if ($security->getUser()) {
-            return $this->errorResponse('You are already logged');
-        }
-
-        try {
-            $user = $useCase->execute($guestAccessRequest);
-        } catch (AccessDeniedException $e) {
-            return $this->errorResponse($e->getMessage());
-        }
-
-        $security->login($user);
-
-        return $this->json(['uuid' => $user->getUuid()]);
-    }
-
-    private function errorResponse(string $error, int $status = 500): Response
-    {
-        return $this->json(['error' => $error], $status);
     }
 }

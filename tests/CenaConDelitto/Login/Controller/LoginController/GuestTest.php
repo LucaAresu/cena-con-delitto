@@ -18,7 +18,6 @@ class GuestTest extends WebTestCase
     public function setUp(): void
     {
         $this->client = self::createClient();
-        $this->client->followRedirects(true);
         $container = self::getContainer();
         $this->userRepository = $container->get(UserRepository::class);
         parent::setUp();
@@ -29,39 +28,44 @@ class GuestTest extends WebTestCase
     {
         $username = 'billy';
 
-        $this->client->request('POST', 'guest-access', [
+        $this->client->request('POST', 'login', [
             'username' => $username
         ]);
 
-        self::assertResponseIsSuccessful();
+        $this->client->followRedirect();
 
-        $response = json_decode((string)$this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
-        self::assertIsArray($response);
-        self::assertArrayHasKey('uuid', $response);
-
-        $user = $this->userRepository->get($response['uuid']);
-
-        self::assertSame($username, $user->getUsername());
+        self::assertResponseRedirects('/cena');
     }
 
     /** @test */
     public function it_should_return_a_user_when_already_exist(): void
     {
         $username = 'billy';
-        $user = $this->createUser($username, true);
+        $this->createUser($username, true);
 
-        $this->client->request('POST', 'guest-access', [
+        $this->client->request('POST', 'login', [
             'username' => $username
         ]);
 
-        self::assertResponseIsSuccessful();
+        $this->client->followRedirect();
 
-        $response = json_decode((string)$this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        self::assertResponseRedirects('/cena');
+    }
 
-        self::assertIsArray($response);
-        self::assertArrayHasKey('uuid', $response);
-        self::assertSame($user->getUuid()->toRfc4122(), $response['uuid']);
+    /** @test */
+    public function it_should_error_if_username_empty(): void
+    {
+        $username = '';
+
+        $this->client->request('POST', 'login', [
+            'username' => $username
+        ]);
+
+        $this->client->followRedirect();
+
+        $response = $this->client->getResponse()->getContent();
+
+        self::assertStringContainsString('Invalid credentials', $response);
     }
 
     /** @test */
@@ -70,42 +74,15 @@ class GuestTest extends WebTestCase
         $username = 'billy';
         $this->createUser($username, false);
 
-        $this->client->request('POST', 'guest-access', [
+        $this->client->request('POST', 'login', [
             'username' => $username
         ]);
 
-        self::assertResponseStatusCodeSame(500);
-    }
+        $this->client->followRedirect();
 
-    /** @test */
-    public function it_should_error_if_already_logged(): void
-    {
-        $user = $this->createUser('billy', true);
-        $this->client->loginUser($user);
+        $response = $this->client->getResponse()->getContent();
 
-        $this->client->request('POST', 'guest-access', [
-            'username' => 'some-username'
-        ]);
-
-        $response = json_decode($this->client->getResponse()->getContent(), true);
-
-        self::assertResponseStatusCodeSame(500);
-        self::assertIsArray($response);
-        self::assertArrayHasKey('error', $response);
-        self::assertStringContainsString('already logged', $response['error']);
-    }
-
-    /** @test */
-    public function it_should_error_if_empty_or_missing_username(): void
-    {
-        $this->client->request('POST', 'guest-access');
-
-        $response = json_decode($this->client->getResponse()->getContent(), true);
-
-        self::assertResponseStatusCodeSame(400);
-        self::assertIsArray($response);
-        self::assertArrayHasKey('errors', $response);
-        self::assertStringContainsString('should not be blank', $response['errors']['username']);
+        self::assertStringContainsString('non è un guest', $response);
     }
 
     private function createUser(string $username, bool $isGuest): User
