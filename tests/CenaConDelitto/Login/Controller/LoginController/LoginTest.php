@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\CenaConDelitto\UserArea\Controller\LoginController;
+namespace App\Tests\CenaConDelitto\Login\Controller\LoginController;
 
 use App\Factory\UserFactory;
 use CenaConDelitto\Shared\Entity\User;
@@ -32,7 +32,7 @@ class LoginTest extends WebTestCase
 
         $this->client->followRedirect();
 
-        self::assertResponseRedirects('/');
+        self::assertResponseRedirects('/cena');
     }
 
     /** @test */
@@ -67,6 +67,20 @@ class LoginTest extends WebTestCase
         self::assertResponseRedirects('/admin/');
     }
 
+    /** @test */
+    public function it_should_redirect_if_logged(): void
+    {
+        $user = $this->createUser(false);
+        $this->client->loginUser($user);
+
+        $this->client->request('GET', 'login', [
+            'username' => $user->getUsername(),
+            'password' => 'test'
+        ]);
+
+        self::assertResponseRedirects('/');
+    }
+
     private function createUser(bool $isGuest, array $roles = [UserRoles::User]): User
     {
         $user = UserFactory::createOne([
@@ -78,4 +92,5 @@ class LoginTest extends WebTestCase
 
         return $user->object();
     }
+
 }

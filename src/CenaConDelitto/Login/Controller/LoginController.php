@@ -19,19 +19,26 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, #[CurrentUser] null|User $user): Response
     {
+        if (null !== $user) {
+            return $this->redirectToRoute('handle_user_logged');
+        }
+
         return $this->render('login.html.twig', [
             'error' => $authenticationUtils->getLastAuthenticationError()
         ]);
-
     }
 
-    #[Route('/login/success', name: 'login_success')]
-    public function loginSuccess(#[CurrentUser] User $user): Response
+    #[Route('/', name: 'handle_user_logged')]
+    public function handleUserLogged(#[CurrentUser] null|User $user): Response
     {
+        if (null === $user) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $redirectRoute = 'home';
-        if (in_array(UserRoles::Admin->value, $user->getRoles())) {
+        if (in_array(UserRoles::Admin->value, $user->getRoles(), true)) {
             $redirectRoute = 'admin_home';
         }
 

@@ -21,7 +21,7 @@ security:
                 enable_csrf: true
                 username_parameter: username
                 password_parameter: password
-                default_target_path: login_success
+                default_target_path: handle_user_logged
                 always_use_default_target_path: true
             entry_point: form_login
             logout:
@@ -38,8 +38,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/cena, roles: ROLE_USER }
 
 when@test:
     security:
