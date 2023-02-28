@@ -20,10 +20,10 @@ class AdminControllerTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_work_when_admin_access(): void
+    public function itShouldWorkWhenAdminAccess(): void
     {
         $user = UserFactory::createOne([
-            'roles' => [UserRoles::Admin]
+            'roles' => [UserRoles::Admin],
         ]);
 
         $this->client->loginUser($user->object());
@@ -35,7 +35,7 @@ class AdminControllerTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_access_denied_when_user_tries_to_access(): void
+    public function itShouldAccessDeniedWhenUserTriesToAccess(): void
     {
         $user = UserFactory::createOne();
         $this->client->loginUser($user->object());
@@ -46,7 +46,7 @@ class AdminControllerTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_redirect_to_login_if_not_logged(): void
+    public function itShouldRedirectToLoginIfNotLogged(): void
     {
         $this->client->request('GET', 'admin');
 

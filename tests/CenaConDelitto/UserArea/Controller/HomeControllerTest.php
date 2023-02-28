@@ -19,7 +19,7 @@ class HomeControllerTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_success_when_logged_user_access(): void
+    public function itShouldSuccessWhenLoggedUserAccess(): void
     {
         $user = UserFactory::createOne();
         $this->client->loginUser($user->object());
@@ -30,7 +30,7 @@ class HomeControllerTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_redirect_to_login_if_not_logged(): void
+    public function itShouldRedirectToLoginIfNotLogged(): void
     {
         $this->client->request('GET', 'cena');
 

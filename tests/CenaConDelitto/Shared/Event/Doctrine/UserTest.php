@@ -9,13 +9,12 @@ use CenaConDelitto\Shared\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Uid\UuidV6;
 
 class UserTest extends KernelTestCase
 {
-
     private UserRepository $userRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
+
     public function setUp(): void
     {
         $container = self::getContainer();
@@ -24,7 +23,7 @@ class UserTest extends KernelTestCase
     }
 
     /** @test */
-    public function it_should_change_user_password_on_creation(): void
+    public function itShouldChangeUserPasswordOnCreation(): void
     {
         $password = 'test';
         $user = $this->createUser($password);
@@ -34,7 +33,7 @@ class UserTest extends KernelTestCase
     }
 
     /** @test */
-    public function it_should_change_user_password_on_update(): void
+    public function itShouldChangeUserPasswordOnUpdate(): void
     {
         $user = $this->createUser('changeMe');
 

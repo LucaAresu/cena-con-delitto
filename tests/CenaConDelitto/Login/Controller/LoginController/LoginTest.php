@@ -21,13 +21,13 @@ class LoginTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_redirect_to_userarea_if_user_has_logged(): void
+    public function itShouldRedirectToUserareaIfUserHasLogged(): void
     {
         $user = $this->createUser(false);
 
         $this->client->request('POST', 'login', [
             'username' => $user->getUsername(),
-            'password' => 'test'
+            'password' => 'test',
         ]);
 
         $this->client->followRedirect();
@@ -36,13 +36,13 @@ class LoginTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_error_on_wrong_password(): void
+    public function itShouldErrorOnWrongPassword(): void
     {
         $user = $this->createUser(false);
 
         $this->client->request('POST', 'login', [
             'username' => $user->getUsername(),
-            'password' => 'wrong-password'
+            'password' => 'wrong-password',
         ]);
 
         $this->client->followRedirect();
@@ -53,13 +53,13 @@ class LoginTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_redirect_on_adminarea_when_admin_has_logged(): void
+    public function itShouldRedirectOnAdminareaWhenAdminHasLogged(): void
     {
         $user = $this->createUser(false, [UserRoles::Admin]);
 
         $this->client->request('POST', 'login', [
             'username' => $user->getUsername(),
-            'password' => 'test'
+            'password' => 'test',
         ]);
 
         $this->client->followRedirect();
@@ -68,14 +68,14 @@ class LoginTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_redirect_if_logged(): void
+    public function itShouldRedirectIfLogged(): void
     {
         $user = $this->createUser(false);
         $this->client->loginUser($user);
 
         $this->client->request('GET', 'login', [
             'username' => $user->getUsername(),
-            'password' => 'test'
+            'password' => 'test',
         ]);
 
         self::assertResponseRedirects('/');
@@ -85,12 +85,11 @@ class LoginTest extends WebTestCase
     {
         $user = UserFactory::createOne([
             'username' => 'billy',
-            'password'=> 'test',
+            'password' => 'test',
             'roles' => $roles,
-            'is_guest' => $isGuest
+            'is_guest' => $isGuest,
         ]);
 
         return $user->object();
     }
-
 }

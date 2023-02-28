@@ -7,8 +7,8 @@ namespace App\Tests\CenaConDelitto\UserArea\Controller\LoginController;
 use App\Factory\UserFactory;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GuestTest extends WebTestCase
 {
@@ -24,12 +24,12 @@ class GuestTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_create_a_guest_when_no_user_found(): void
+    public function itShouldCreateAGuestWhenNoUserFound(): void
     {
         $username = 'billy';
 
         $this->client->request('POST', 'login', [
-            'username' => $username
+            'username' => $username,
         ]);
 
         $this->client->followRedirect();
@@ -38,13 +38,13 @@ class GuestTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_return_a_user_when_already_exist(): void
+    public function itShouldReturnAUserWhenAlreadyExist(): void
     {
         $username = 'billy';
         $this->createUser($username, true);
 
         $this->client->request('POST', 'login', [
-            'username' => $username
+            'username' => $username,
         ]);
 
         $this->client->followRedirect();
@@ -53,12 +53,12 @@ class GuestTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_error_if_username_empty(): void
+    public function itShouldErrorIfUsernameEmpty(): void
     {
         $username = '';
 
         $this->client->request('POST', 'login', [
-            'username' => $username
+            'username' => $username,
         ]);
 
         $this->client->followRedirect();
@@ -69,13 +69,13 @@ class GuestTest extends WebTestCase
     }
 
     /** @test */
-    public function it_should_error_if_user_exist_and_is_not_guest(): void
+    public function itShouldErrorIfUserExistAndIsNotGuest(): void
     {
         $username = 'billy';
         $this->createUser($username, false);
 
         $this->client->request('POST', 'login', [
-            'username' => $username
+            'username' => $username,
         ]);
 
         $this->client->followRedirect();
@@ -89,10 +89,9 @@ class GuestTest extends WebTestCase
     {
         $user = UserFactory::createOne([
             'username' => $username,
-            'is_guest' => $isGuest
+            'is_guest' => $isGuest,
         ]);
 
         return $user->object();
     }
-
 }
