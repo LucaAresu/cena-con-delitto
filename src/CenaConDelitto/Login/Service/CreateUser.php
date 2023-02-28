@@ -16,7 +16,7 @@ readonly class CreateUser
 
     public function createGuest(string $username): User
     {
-        $user = $this->createUser($username)
+        $user = $this->create($username)
             ->setIsGuest(true);
 
         $this->userRepository->save($user);
@@ -24,9 +24,10 @@ readonly class CreateUser
         return $user;
     }
 
-    public function createUser(string $username): User
+    public function createUser(string $username, string $password): User
     {
         $user = $this->create($username)
+            ->setPlainPassword($password)
             ->setIsGuest(false);
 
         $this->userRepository->save($user);

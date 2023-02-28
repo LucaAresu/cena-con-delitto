@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace CenaConDelitto\Login\EventListener\Security\Http\Event\CheckPassportEvent;
 
 use CenaConDelitto\Login\Exception\NotAGuestException;
-use CenaConDelitto\Login\Service\IsRequestGoodForUser;
+use CenaConDelitto\Login\Service\UserAccessType;
 use CenaConDelitto\Shared\Entity\User;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
 readonly class AllowGuestToLogin
 {
-    public function __construct(private IsRequestGoodForUser $isRequestGoodForUser)
+    public function __construct(private UserAccessType $userAccessType)
     {
     }
 
     public function checkGuestUser(CheckPassportEvent $event): void
     {
-        if (false === $this->isRequestGoodForUser->execute()) {
+        if (false === $this->userAccessType->isGuestAccess()) {
             return;
         }
 

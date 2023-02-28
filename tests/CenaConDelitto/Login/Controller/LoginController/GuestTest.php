@@ -35,6 +35,10 @@ class GuestTest extends WebTestCase
         $this->client->followRedirect();
 
         self::assertResponseRedirects('/cena');
+        $user = $this->userRepository->getByUsername($username);
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertTrue($user->isGuest());
     }
 
     /** @test */

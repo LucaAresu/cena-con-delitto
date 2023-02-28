@@ -7,16 +7,23 @@ namespace App\Tests\CenaConDelitto\Login\Controller\LoginController;
 use App\Factory\UserFactory;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Enum\UserRoles;
+use CenaConDelitto\Shared\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class LoginTest extends WebTestCase
 {
     private KernelBrowser $client;
+    private UserRepository $userRepository;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
     public function setUp(): void
     {
         $this->client = self::createClient();
+        $container = self::getContainer();
+        $this->userRepository = $container->get(UserRepository::class);
+        $this->userPasswordHasher = $container->get(UserPasswordHasherInterface::class);
         parent::setUp();
     }
 
@@ -79,6 +86,27 @@ class LoginTest extends WebTestCase
         ]);
 
         self::assertResponseRedirects('/');
+    }
+
+    /** @test */
+    public function itShouldRegisterANewUserIfNoExist(): void
+    {
+        $username = 'billy';
+        $password = 'test';
+
+        $this->client->request('POST', 'login', [
+            'username' => $username,
+            'password' => $password,
+        ]);
+
+        $this->client->followRedirect();
+
+        self::assertResponseRedirects('/cena');
+        $user = $this->userRepository->getByUsername($username);
+
+        self::assertInstanceOf(User::class, $user);
+        self::assertFalse($user->isGuest());
+        self::assertTrue($this->userPasswordHasher->isPasswordValid($user, $password));
     }
 
     private function createUser(bool $isGuest, array $roles = [UserRoles::User]): User
