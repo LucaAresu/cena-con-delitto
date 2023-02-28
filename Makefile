@@ -24,7 +24,7 @@ phpstan:
 	symfony php vendor/bin/phpstan analyse src --level=$(call args)
 
 fix:
-	PHP_CS_FIXER_IGNORE_ENV=1 php ./vendor/bin/php-cs-fixer fix src/CenaConDelitto
+	PHP_CS_FIXER_IGNORE_ENV=1 php ./vendor/bin/php-cs-fixer fix
 
 infection:
 	symfony php -d memory_limit=-1 vendor/bin/infection
