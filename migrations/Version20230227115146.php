@@ -20,7 +20,8 @@ final class Version20230227115146 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE "user" ALTER uuid TYPE UUID');
+        $this->addSql('create extension IF NOT EXISTS "uuid-ossp" schema pg_catalog version "1.1"');
+        $this->addSql('ALTER TABLE "user" ALTER uuid TYPE UUID USING (uuid_generate_v4())');
         $this->addSql('COMMENT ON COLUMN "user".uuid IS \'(DC2Type:uuid)\'');
     }
 

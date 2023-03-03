@@ -54,6 +54,7 @@ class UserAccessType
         }
 
         $username = $request->get('username');
+        /** @noinspection IfReturnReturnSimplificationInspection */
         if (null === $username || '' === $username) {
             return false;
         }

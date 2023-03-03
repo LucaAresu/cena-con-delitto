@@ -4,6 +4,7 @@ namespace CenaConDelitto\Shared\Entity;
 
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use SensitiveParameter;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     #[ORM\Column]
-    private bool $is_guest;
+    private bool $isGuest;
 
     public function getId(): ?int
     {
@@ -121,7 +122,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(string|null $plainPassword): self
+    public function setPlainPassword(#[SensitiveParameter] string|null $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
 
@@ -138,12 +139,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isGuest(): bool
     {
-        return $this->is_guest;
+        return $this->isGuest;
     }
 
-    public function setIsGuest(bool $is_guest): self
+    public function setIsGuest(bool $isGuest): self
     {
-        $this->is_guest = $is_guest;
+        $this->isGuest = $isGuest;
 
         return $this;
     }

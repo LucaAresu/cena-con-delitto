@@ -5,6 +5,7 @@ namespace CenaConDelitto\Shared\Repository;
 use CenaConDelitto\Shared\Entity\User;
 use CenaConDelitto\Shared\Exception\EntityNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -34,31 +35,30 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
-    public function get(string $uuid): User
+    public function get(string $uuid): null|User
     {
-        /** @var User|null $result */
-        $result = $this->createQueryBuilder('u')
-            ->andWhere('u.uuid = :uuid')
-            ->setParameter('uuid', $uuid)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (!$result) {
-            throw EntityNotFoundException::crea(self::class, $uuid);
-        }
-
-        return $result;
+        return $this->getByAttribute('uuid', $uuid);
     }
 
-    /** @noinspection PhpUnhandledExceptionInspection */
-    public function getByUsername(string $username): User|null
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getByUsername(string $username): null|User
+    {
+        return $this->getByAttribute('username', $username);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    private function getByAttribute(string $attribute, string $search): null|User
     {
         /* @phpstan-ignore-next-line */
         return $this->createQueryBuilder('u')
-            ->andWhere('u.username = :username')
-            ->setParameter('username', $username)
+            ->andWhere(sprintf('u.%s = :search', $attribute))
+            ->setParameter('search', $search)
             ->getQuery()
             ->getOneOrNullResult();
     }
