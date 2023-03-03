@@ -109,6 +109,20 @@ class LoginTest extends WebTestCase
         self::assertTrue($this->userPasswordHasher->isPasswordValid($user, $password));
     }
 
+    /** @test */
+    public function itShouldErrorWhenEmptyUsername(): void
+    {
+        $this->client->request('POST', 'login', [
+            'username' => '',
+        ]);
+
+        $this->client->followRedirect();
+
+        $response = $this->client->getResponse()->getContent();
+
+        self::assertStringContainsString('Invalid credentials.', $response);
+    }
+
     private function createUser(bool $isGuest, array $roles = [UserRoles::User]): User
     {
         $user = UserFactory::createOne([
