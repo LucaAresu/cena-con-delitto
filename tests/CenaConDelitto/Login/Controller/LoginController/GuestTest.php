@@ -89,6 +89,24 @@ class GuestTest extends WebTestCase
         self::assertStringContainsString('non è un guest', $response);
     }
 
+    /** @test */
+    public function itShouldErrorWhenYouAccessAGuestWithAPassword(): void
+    {
+        $username = 'billy';
+        $this->createUser($username, false);
+
+        $this->client->request('POST', 'login', [
+            'username' => $username,
+            'password' => 'test'
+        ]);
+
+        $this->client->followRedirect();
+
+        $response = $this->client->getResponse()->getContent();
+
+        self::assertStringContainsString('Invalid credentials', $response);
+    }
+
     private function createUser(string $username, bool $isGuest): User
     {
         $user = UserFactory::createOne([
