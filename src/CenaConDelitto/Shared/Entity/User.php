@@ -124,7 +124,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(#[SensitiveParameter] string|null $plainPassword): self
+    public function setPlainPassword(#[\SensitiveParameter] string|null $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
 

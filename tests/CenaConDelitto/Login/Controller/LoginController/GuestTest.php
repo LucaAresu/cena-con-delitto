@@ -97,7 +97,7 @@ class GuestTest extends WebTestCase
 
         $this->client->request('POST', 'login', [
             'username' => $username,
-            'password' => 'test'
+            'password' => 'test',
         ]);
 
         $this->client->followRedirect();
