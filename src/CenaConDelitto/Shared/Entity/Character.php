@@ -17,10 +17,10 @@ class Character
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\Column(type: 'uuid', unique: true)]
     private Uuid $uuid;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private string $name;
 
     /** @var Collection<int, Dinner> $dinners */

@@ -2,13 +2,13 @@
 
 namespace CenaConDelitto\Shared\Entity;
 
-use CenaConDelitto\Shared\Repository\CenaRepository;
+use CenaConDelitto\Shared\Repository\DinnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: CenaRepository::class)]
+#[ORM\Entity(repositoryClass: DinnerRepository::class)]
 class Dinner
 {
     #[ORM\Id]
@@ -19,7 +19,7 @@ class Dinner
     #[ORM\Column(length: 127)]
     private string $name;
 
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\Column(type: 'uuid', unique: true)]
     private Uuid $uuid;
 
     /** @var Collection<int, Character> $characters */

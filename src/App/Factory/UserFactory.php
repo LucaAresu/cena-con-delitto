@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use CenaConDelitto\Shared\Entity\User;
+use CenaConDelitto\Shared\Enum\UserRoles;
 use CenaConDelitto\Shared\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Uuid;
@@ -52,6 +53,14 @@ final class UserFactory extends ModelFactory
             'uuid' => Uuid::v7(),
             'is_guest' => false,
         ];
+    }
+
+    /** @return Proxy<User> */
+    public static function createAdmin(array $args = []): Proxy
+    {
+        return self::createOne(
+            array_merge($args, ['roles' => [UserRoles::Admin]])
+        );
     }
 
     /**

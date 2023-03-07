@@ -31,6 +31,9 @@ final class Version20230307095449 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN dinner.uuid IS \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE character_dinner ADD CONSTRAINT FK_2AF6D3A81136BE75 FOREIGN KEY (character_id) REFERENCES character (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE character_dinner ADD CONSTRAINT FK_2AF6D3A8C8B1AA0C FOREIGN KEY (dinner_id) REFERENCES dinner (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_937AB034D17F50A6 ON character (uuid)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_937AB0345E237E06 ON character (name)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_89B4103BD17F50A6 ON dinner (uuid)');
     }
 
     public function down(Schema $schema): void
@@ -41,6 +44,9 @@ final class Version20230307095449 extends AbstractMigration
         $this->addSql('DROP SEQUENCE dinner_id_seq CASCADE');
         $this->addSql('ALTER TABLE character_dinner DROP CONSTRAINT FK_2AF6D3A81136BE75');
         $this->addSql('ALTER TABLE character_dinner DROP CONSTRAINT FK_2AF6D3A8C8B1AA0C');
+        $this->addSql('DROP INDEX UNIQ_937AB034D17F50A6');
+        $this->addSql('DROP INDEX UNIQ_937AB0345E237E06');
+        $this->addSql('DROP INDEX UNIQ_89B4103BD17F50A6');
         $this->addSql('DROP TABLE character');
         $this->addSql('DROP TABLE character_dinner');
         $this->addSql('DROP TABLE dinner');
