@@ -44,3 +44,6 @@ services:
     CenaConDelitto\Login\EventListener\Security\Http\Event\CheckPassportEvent\AllowGuestToLogin:
         tags:
             - {name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\CheckPassportEvent, method: checkGuestUser, priority: 1}
+    get_set_method_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+        tags: [serializer.normalizer]

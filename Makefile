@@ -21,7 +21,7 @@ coverage:
 	symfony php vendor/bin/phpunit --coverage-html public/coverage
 
 phpstan:
-	symfony php vendor/bin/phpstan analyse src --level=$(call args)
+	symfony php vendor/bin/phpstan analyse
 
 fix:
 	PHP_CS_FIXER_IGNORE_ENV=1 php ./vendor/bin/php-cs-fixer fix

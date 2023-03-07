@@ -1,0 +1,14 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: My App
+            description: This is an awesome app!
+            version: 1.0.0
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/(admin/.|cena/) # Accepts routes under /api except /api/doc
+    models:
+        names:
+            - { alias: CreateDinnerRequest, type: CenaConDelitto\Admin\Dto\CreateDinnerRequest }
+            - { alias: Dinner, type: CenaConDelitto\Shared\Entity\Dinner }
+            - { alias: ValidationErrorsResponse, type: CenaConDelitto\Shared\Dto\ValidationErrorResponse }

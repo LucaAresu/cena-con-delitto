@@ -40,6 +40,7 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/cena, roles: ROLE_USER }
+         - { path: ^/api, roles: ROLE_USER }
 
 when@test:
     security:

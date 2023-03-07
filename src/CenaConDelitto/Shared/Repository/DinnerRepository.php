@@ -5,6 +5,7 @@ namespace CenaConDelitto\Shared\Repository;
 use CenaConDelitto\Shared\Entity\Dinner;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Dinner>
@@ -21,13 +22,15 @@ class DinnerRepository extends ServiceEntityRepository
         parent::__construct($registry, Dinner::class);
     }
 
-    public function save(Dinner $entity, bool $flush = false): void
+    public function add(Dinner $dinner): void
     {
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist($dinner);
+    }
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+    public function save(Dinner $dinner): void
+    {
+        $this->add($dinner);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Dinner $entity, bool $flush = false): void
@@ -39,28 +42,13 @@ class DinnerRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Cena[] Returns an array of Cena objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function get(Uuid $uuid): null|Dinner
+    {
+        return $this->findOneBy(['uuid' => $uuid]);
+    }
 
-//    public function findOneBySomeField($value): ?Cena
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getByName(string $name): null|Dinner
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
 }

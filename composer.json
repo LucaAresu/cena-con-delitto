@@ -12,8 +12,10 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
         "friendsofphp/php-cs-fixer": "^3.14",
+        "nelmio/api-doc-bundle": "^4.11",
         "phpstan/phpdoc-parser": "^1.6",
         "stof/doctrine-extensions-bundle": "^1.7",
+        "symfony-bundles/json-request-bundle": "^4.1",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
@@ -22,13 +24,15 @@
         "symfony/monolog-bundle": "^3.0",
         "symfony/runtime": "6.2.*",
         "symfony/security-bundle": "6.2.*",
+        "symfony/serializer": "6.2.*",
         "symfony/twig-bundle": "6.2.*",
         "symfony/uid": "6.2.*",
         "symfony/validator": "6.2.*",
         "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.2.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "zircote/swagger-php": "^4.7"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.2",
