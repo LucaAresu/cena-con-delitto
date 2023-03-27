@@ -38,14 +38,22 @@ class Dinner
     private Uuid $uuid;
 
     /** @var Collection<int, Character> $characters */
-    #[ORM\ManyToMany(targetEntity: Character::class, mappedBy: 'cena')]
+    #[ORM\ManyToMany(targetEntity: Character::class, mappedBy: 'dinners')]
     private Collection $characters;
 
-    public function __construct(Uuid $uuid, string $name)
+    #[ORM\Column]
+    private ?bool $active = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct(Uuid $uuid, string $name, bool $active)
     {
         $this->uuid = $uuid;
         $this->name = $name;
+        $this->active = $active;
         $this->characters = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -102,5 +110,29 @@ class Dinner
         }
 
         return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }

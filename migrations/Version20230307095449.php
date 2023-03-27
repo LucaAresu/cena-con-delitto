@@ -27,7 +27,7 @@ final class Version20230307095449 extends AbstractMigration
         $this->addSql('CREATE TABLE character_dinner (character_id INT NOT NULL, dinner_id INT NOT NULL, PRIMARY KEY(character_id, dinner_id))');
         $this->addSql('CREATE INDEX IDX_2AF6D3A81136BE75 ON character_dinner (character_id)');
         $this->addSql('CREATE INDEX IDX_2AF6D3A8C8B1AA0C ON character_dinner (dinner_id)');
-        $this->addSql('CREATE TABLE dinner (id INT NOT NULL, uuid UUID NOT NULL,name VARCHAR(127) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE dinner (id INT NOT NULL, name VARCHAR(127) NOT NULL, uuid UUID NOT NULL, active BOOLEAN NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN dinner.uuid IS \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE character_dinner ADD CONSTRAINT FK_2AF6D3A81136BE75 FOREIGN KEY (character_id) REFERENCES character (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE character_dinner ADD CONSTRAINT FK_2AF6D3A8C8B1AA0C FOREIGN KEY (dinner_id) REFERENCES dinner (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');

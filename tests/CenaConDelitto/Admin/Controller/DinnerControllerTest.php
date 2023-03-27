@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\CenaConDelitto\Admin\Controller;
 
+use App\Factory\DinnerFactory;
 use App\Factory\UserFactory;
 use CenaConDelitto\Shared\Entity\Dinner;
 use CenaConDelitto\Shared\Repository\DinnerRepository;
@@ -67,5 +68,26 @@ class DinnerControllerTest extends WebTestCase
         ]);
 
         self::assertResponseStatusCodeSame(400);
+    }
+
+    /** @test */
+    public function itShouldDeleteADinner(): void
+    {
+        $dinner = new Dinner(Uuid::fromString('db22b2df-6838-4575-822d-5929325675ea'), 'random name', false);
+        $this->dinnerRepository->save($dinner);
+
+        $this->client->request('DELETE', sprintf('admin/cena/%s', $dinner->getUuid()));
+
+        self::assertResponseIsSuccessful();
+        self::assertNull($this->dinnerRepository->get($dinner->getUuid()));
+        self::assertEmpty($this->client->getRequest()->getContent());
+    }
+
+    /** @test */
+    public function itShould404WhenNoDinner(): void
+    {
+        $this->client->request('DELETE', 'admin/cena/db22b2df-6838-4575-822d-5929325675ea');
+
+        self::assertResponseStatusCodeSame(404);
     }
 }

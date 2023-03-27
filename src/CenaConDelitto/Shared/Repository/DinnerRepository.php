@@ -33,13 +33,10 @@ class DinnerRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function remove(Dinner $entity, bool $flush = false): void
+    public function remove(Dinner $entity): void
     {
         $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
     public function get(Uuid $uuid): null|Dinner

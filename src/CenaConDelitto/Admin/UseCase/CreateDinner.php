@@ -22,7 +22,8 @@ readonly class CreateDinner
         $uuid = $request->uuid() ? Uuid::fromString($request->uuid()) : $this->uuidFactory->create();
         $dinner = new Dinner(
             uuid: $uuid,
-            name: $request->name()
+            name: $request->name(),
+            active: false,
         );
 
         $this->dinnerRepository->save($dinner);
