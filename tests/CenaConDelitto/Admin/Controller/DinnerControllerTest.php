@@ -89,5 +89,6 @@ class DinnerControllerTest extends WebTestCase
         $this->client->request('DELETE', 'admin/cena/db22b2df-6838-4575-822d-5929325675ea');
 
         self::assertResponseStatusCodeSame(404);
+        self::assertStringContainsString('not found', $this->client->getResponse()->getContent());
     }
 }

@@ -63,4 +63,10 @@ class DinnerController extends AbstractController
         $dinnerRepository->remove($dinner);
         return $this->json(null);
     }
+
+    #[Route('admin/cena/{uuid}', name: 'admin_dinner_get', methods: ['GET'])]
+    public function get(Dinner $dinner): Response
+    {
+        return $this->json($dinner);
+    }
 }

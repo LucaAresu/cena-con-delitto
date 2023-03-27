@@ -18,14 +18,14 @@ class RequestValidationExceptionListener
 
     public function handleException(ExceptionEvent $event): void
     {
-        $exception = $event->getThrowable();
+        $throwable = $event->getThrowable();
 
-        if (!$exception instanceof RequestValidationException) {
+        if (false === $throwable instanceof RequestValidationException) {
             return;
         }
         $validationErrorResponse = ValidationErrorResponse::createFromConstraintViolationList(
             'Some validation errors has happened',
-            $exception->violationList()
+            $throwable->violationList()
         );
 
         $response = new JsonResponse(
